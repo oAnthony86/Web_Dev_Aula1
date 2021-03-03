@@ -18,7 +18,17 @@ class Form{
     }
 
     public function __toString(){
-        $form = '<form name="' . $this->name . '" method="' . $this->method . '" id="' . $this->id . '">';
+        $form = '<form '; //name="' . $this->name . '" method="' . $this->method . '" id="' . $this->id . '">';
+        if(isset($this->name) && !is_null($this->name)){
+            $form .= 'name="' . $this->name . '" ';
+        }
+        if(isset($this->method) && !is_null($this->method)){
+            $form .= 'method="' . $this->method . '" ';
+        }
+        if(isset($this->id) && !is_null($this->id)){
+            $form .= 'id="' . $this->id . '" ';
+        }
+        $form .= '">';
         foreach ( $this->content as $var){
             $form .= $var; 
         }
