@@ -1,37 +1,55 @@
 <?php
 require('autoload.php');
 
-//echo new Link('http://unidavi.edu.br',
-$head = new Head("Hello, world!");
-$head->addProp(new Meta("viewport", "width=device-width, initial-scale=1"));
-$head->addProp(new Link("https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css", "stylesheet", "sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl", "anonymous"));
+$metaCharset = new Meta("UTF-8");
+$metaHttEquiv = new Meta(null, null, "X-UA-Compatible", "IE=edge");
+$metaName = new Meta(null, "viewport", null, "width=device-width, initial-scale=1.0");
 
-$body = new Body();
-$body->addProp(new HeaderTitle("Hello, world!", "2"));
-$body->addProp(new HtmlComment("Optional JavaScript; choose one of the two!"));
-$body->addProp(new HtmlComment("Option 1: Bootstrap Bundle with Popper"));
-$body->addProp(new Script("https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js", "sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0", "anonymous", ""));
+$title = new Title("Minha Página");
 
-echo (new Html("en", $head, $body));
+$linkBootstrap = new LinkCss("https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css","stylesheet", "sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl","anonymous");
 
-/**<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+$head = new Head();
+$head->addElement($metaCharset);
+$head->addElement($metaHttEquiv);
+$head->addElement($metaName);
+$head->addElement($linkBootstrap);
+$head->addElement($title);
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+$body = new Body("body");
 
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
+$container = new Div("container");
 
-    <!-- Optional JavaScript; choose one of the two! -->
+$barra = new Div("row");
+$conteudoBarra = new Div("col bg-primary");
+$texto = new Texto("olá mundo");
+$conteudoBarra->addElement($texto);
+$barra->addElement($conteudoBarra);
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+$areaprincipal = new Div("row");
+$menu = new Div("col-sm-2");
+//$menu->addElement($texto);
 
-  </body>
-</html>
-*/
+//itens do menu
+$menuConteudo = new Ul("list-group");
+$menuConteudo->addElement(new li("list-group-item", "Pessoas"));
+$menuConteudo->addElement(new li("list-group-item", "Produtos"));
+$menuConteudo->addElement(new li("list-group-item", "Contas"));
+$menuConteudo->addElement(new li("list-group-item", "Créditos"));
+$menu->addElement($menuConteudo);
+
+$miolo = new Div("col-sm-10 bg-danger");
+$miolo->addElement($texto);
+
+$areaprincipal->addElement($menu);
+$areaprincipal->addElement($miolo);
+
+$container->addElement($barra);
+$container->addElement($areaprincipal);
+
+$body->addElement($container);
+
+$html = new Html("pt-br", $head, $body);
+
+echo $html;
+?>
